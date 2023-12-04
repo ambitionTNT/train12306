@@ -1,5 +1,4 @@
-package edu.scnu.train12306.member.config;
-
+package edu.scnu.train12306.gateway.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -10,19 +9,19 @@ import org.springframework.core.env.ConfigurableEnvironment;
 /**
  * @author long
  * @version 1.0
- * @ClassName TraninMemberApplication
+ * @ClassName GatewayAppllication
  * @description: TODO
- * @date 2023/12/4 14:35
+ * @date 2023/12/4 21:08
  */
 @SpringBootApplication
 @ComponentScan("edu.scnu.train12306")
-public class TrainMemberApplication {
-    private final static Logger LOG = LoggerFactory.getLogger(TrainMemberApplication.class);
+public class GatewayApplication {
+    private final static Logger LOG = LoggerFactory.getLogger(GatewayApplication.class);
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(TrainMemberApplication.class);
+        SpringApplication application = new SpringApplication(GatewayApplication.class);
         ConfigurableEnvironment environment = application.run(args).getEnvironment();
         LOG.info("启动成功");
 
-        LOG.info("地址：\t http://127.0.0.1:{}{}", environment.getProperty("server.port"),environment.getProperty("server.servlet.context-path"));
+        LOG.info("网关地址：\t http://127.0.0.1:{}", environment.getProperty("server.port"));
     }
 }
