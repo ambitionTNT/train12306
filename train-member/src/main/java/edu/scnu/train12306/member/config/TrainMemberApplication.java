@@ -22,6 +22,6 @@ public class TrainMemberApplication {
         ConfigurableEnvironment environment = application.run(args).getEnvironment();
         log.info("启动成功");
 
-        log.info("地址：\thttp://127.0.0.1:{}", environment.getProperty("server.port"));
+        log.info("地址：\thttp://127.0.0.1:{}{}", environment.getProperty("server.port"),environment.getProperty("server.servlet.context-path"));
     }
 }
