@@ -1,4 +1,4 @@
-package edu.scnu.train12306.member.utils;
+package edu.scnu.train12306.common.utils;
 
 import org.springframework.stereotype.Component;
 
