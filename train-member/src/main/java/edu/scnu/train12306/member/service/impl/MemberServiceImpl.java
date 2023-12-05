@@ -1,6 +1,8 @@
 package edu.scnu.train12306.member.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import edu.scnu.train12306.common.exception.BusinessException;
+import edu.scnu.train12306.common.exception.BusinessExceptionEnum;
 import edu.scnu.train12306.member.domain.Member;
 import edu.scnu.train12306.member.domain.MemberExample;
 import edu.scnu.train12306.member.mapper.MemberMapper;
@@ -35,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
         List<Member> members = memberMapper.selectByExample(memberExample);
 
         if (CollUtil.isNotEmpty(members)){
-             throw new RuntimeException("手机号已经注册!");
+             throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_EXIST);
         }
 
         Member member = new Member();
