@@ -1,9 +1,15 @@
 package edu.scnu.train12306.member.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import edu.scnu.train12306.member.domain.Member;
+import edu.scnu.train12306.member.domain.MemberExample;
 import edu.scnu.train12306.member.mapper.MemberMapper;
+import edu.scnu.train12306.member.req.MemberRegisterReq;
 import edu.scnu.train12306.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author long
@@ -19,5 +25,25 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int count() {
         return (int) memberMapper.countByExample(null);
+    }
+
+    @Override
+    public long register(MemberRegisterReq req) {
+        String mobile = req.getMobile();
+        MemberExample memberExample = new MemberExample();
+        memberExample.createCriteria().andMobileEqualTo(mobile);
+        List<Member> members = memberMapper.selectByExample(memberExample);
+
+        if (CollUtil.isNotEmpty(members)){
+             throw new RuntimeException("手机号已经注册!");
+        }
+
+        Member member = new Member();
+        member.setId(System.currentTimeMillis());
+        member.setMobile(mobile);
+        memberMapper.insert(member);
+        return member.getId();
+
+
     }
 }
