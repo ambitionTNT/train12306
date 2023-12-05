@@ -1,5 +1,6 @@
 package edu.scnu.train12306.member.config;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +15,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
  * @description: TODO
  * @date 2023/12/4 14:35
  */
+@MapperScan("edu.scnu.train12306.member.mapper")
 @SpringBootApplication
 @ComponentScan("edu.scnu.train12306")
 public class TrainMemberApplication {
