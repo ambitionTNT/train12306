@@ -1,5 +1,7 @@
 package edu.scnu.train12306.member.req;
 
+import jakarta.validation.constraints.NotBlank;
+
 /**
  * @author long
  * @version 1.0
@@ -12,6 +14,7 @@ public class MemberRegisterReq {
      *
      * This field corresponds to the database column member.mobile
      */
+    @NotBlank(message = "【手机号】不能为空")
     private String mobile;
 
     public MemberRegisterReq() {

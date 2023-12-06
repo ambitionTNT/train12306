@@ -1,5 +1,7 @@
 package edu.scnu.train12306.member.domain;
 
+import org.springframework.validation.annotation.Validated;
+
 public class Member {
     /**
      *
