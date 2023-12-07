@@ -1,6 +1,7 @@
 package edu.scnu.train12306.member.service;
 
 import edu.scnu.train12306.member.req.MemberRegisterReq;
+import edu.scnu.train12306.member.req.MemberSendCodeReq;
 
 /**
  * @version 1.0
@@ -10,7 +11,9 @@ import edu.scnu.train12306.member.req.MemberRegisterReq;
  */
 
 public interface MemberService {
-    public int count();
+     int count();
 
-    public long register(MemberRegisterReq req);
+     long register(MemberRegisterReq req);
+
+     void sendCode(MemberSendCodeReq req);
 }

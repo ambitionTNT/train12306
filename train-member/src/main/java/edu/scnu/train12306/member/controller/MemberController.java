@@ -2,6 +2,7 @@ package edu.scnu.train12306.member.controller;
 
 import edu.scnu.train12306.common.resp.CommonResp;
 import edu.scnu.train12306.member.req.MemberRegisterReq;
+import edu.scnu.train12306.member.req.MemberSendCodeReq;
 import edu.scnu.train12306.member.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,11 @@ public class MemberController {
     @PostMapping("/member/register")
     public CommonResp<Long> register(@Valid MemberRegisterReq req){
         return new CommonResp<Long>(memberService.register(req));
+    }
+
+    @PostMapping("/member/sendCode")
+    public CommonResp<Long> sendCode(@Valid MemberSendCodeReq req){
+        memberService.sendCode(req);
+        return new CommonResp<Long>();
     }
 }

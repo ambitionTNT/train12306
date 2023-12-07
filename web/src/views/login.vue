@@ -24,16 +24,6 @@
             name="code"
             :rules="[{ required: false, message: '请获取手机验证码' }]"
         >
-<!--          <a-input-search
-              v-model:value="value"
-              placeholder="input search text"
-              size="large"
-              @click="sendcode"
-          >
-            <template #enterButton>
-              <a-button>获取验证码</a-button>
-            </template>
-          </a-input-search>-->
           <a-input
               v-model:value="loginForm.code"
               size="large"

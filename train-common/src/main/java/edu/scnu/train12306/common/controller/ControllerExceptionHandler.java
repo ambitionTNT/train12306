@@ -31,7 +31,7 @@ public class ControllerExceptionHandler {
     @ResponseBody
     public CommonResp exceptionHandler(BindException e){
         CommonResp commonResp = new CommonResp();
-        LOG.error("业务异常：{}", e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+        LOG.error("校验业务异常：{}", e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
         commonResp.setSuccess(false);
         commonResp.setMessage(e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
         return commonResp;
