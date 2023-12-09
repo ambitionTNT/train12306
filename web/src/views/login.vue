@@ -63,7 +63,7 @@ export default defineComponent({
 
 
     const sendCode = () => {
-      axios.post("http://localhost:8000/member/member/sendCode",
+      axios.post("/member/member/sendCode",
           {mobile: loginForm.mobile}).then((response)=>{
         console.log(response);
           const data  = response.data;
@@ -84,7 +84,7 @@ export default defineComponent({
 
     const login = () => {
       console.log(loginForm)
-      axios.post("http://localhost:8000/member/member/login", loginForm).then((response)=>{
+      axios.post("/member/member/login", loginForm).then((response)=>{
         console.log(response);
         const data  = response.data;
         if (data.success){

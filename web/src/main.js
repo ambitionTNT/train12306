@@ -33,3 +33,11 @@ axios.interceptors.response.use(function (response){
 
     return Promise.reject(error)
 })
+
+
+//测试 环境配置
+console.log('环境:' , process.env.NODE_ENV)
+console.log('服务端:' , process.env.VUE_APP_SERVE)
+
+
+axios.defaults.baseURL = process.env.VUE_APP_SERVE
