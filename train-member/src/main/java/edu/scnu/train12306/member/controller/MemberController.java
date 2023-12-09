@@ -9,6 +9,7 @@ import edu.scnu.train12306.member.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,18 +34,18 @@ public class MemberController {
     }
 
     @PostMapping("/member/register")
-    public CommonResp<Long> register(@Valid MemberRegisterReq req){
+    public CommonResp<Long> register(@Valid @RequestBody   MemberRegisterReq req){
         return new CommonResp<Long>(memberService.register(req));
     }
 
     @PostMapping("/member/sendCode")
-    public CommonResp<Long> sendCode(@Valid MemberSendCodeReq req){
+    public CommonResp<Long> sendCode(@Valid @RequestBody MemberSendCodeReq req){
         memberService.sendCode(req);
         return new CommonResp<Long>();
     }
 
     @PostMapping("/member/login")
-    public CommonResp<MemberLoginResp> login(@Valid MemberLoginReq req){
+    public CommonResp<MemberLoginResp> login(@Valid @RequestBody   MemberLoginReq req){
 
         return new CommonResp<MemberLoginResp>(memberService.login(req));
     }

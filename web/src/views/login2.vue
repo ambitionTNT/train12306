@@ -36,8 +36,8 @@
 
 
         <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-<!--          <a-button type="primary" html-type="submit">登录</a-button>-->
-          <a-button type="primary" @click="login">登录</a-button>
+          <a-button type="primary" html-type="submit">登录</a-button>
+<!--          <a-button type="primary" @click="login">登录</a-button>-->
         </a-form-item>
       </a-form>
     </a-col>
@@ -48,41 +48,21 @@
 
 </template>
 <script>
-import { defineComponent, reactive, h } from 'vue';
-import { SmileOutlined } from '@ant-design/icons-vue';
-import { notification } from 'ant-design-vue';
-import axios from 'axios';
+import {defineComponent, h, reactive} from 'vue';
+import axios from "axios";
+import {notification} from "ant-design-vue";
+import {SmileOutlined} from "@ant-design/icons-vue";
+
 export default defineComponent({
   setup() {
 
     const loginForm = reactive({
       mobile: '18755817542',
-      code: ''
+      code: '8888'
     });
 
 
-
-    const sendCode = () => {
-      axios.post("http://localhost:8000/member/member/sendCode",
-          {mobile: loginForm.mobile}).then((response)=>{
-        console.log(response);
-          const data  = response.data;
-          if (data.success){
-            notification.open({
-              message: '发送短信验证码成功',
-              description: ' 恭喜您发送短信验证码成果，请注意查收手机',
-              icon: () => h(SmileOutlined, {
-                style: 'color: #108ee9',
-
-              })})
-            loginForm.code="8888"
-          }else {
-            console.log("cuowu ")
-          }
-      })
-    };
-
-    const login = () => {
+/*    const login = () => {
       console.log(loginForm)
       axios.post("http://localhost:8000/member/member/login", loginForm).then((response)=>{
         console.log(response);
@@ -102,9 +82,28 @@ export default defineComponent({
           })
         }
       })
-    };
-    const onFinish = values => {
-      console.log('Success:', values);
+    };*/
+    const onFinish = (values) => {
+      axios.post("http://localhost:8000/member/member/login", {mobile:values.mobile,code:values.code}).then((response)=>{
+        console.log(response);
+        const data  = response.data;
+        if (data.success){
+          notification.open({
+            message: '登录成功',
+            description: ' 恭喜您登录成功，请耐心等待页面加载。。。',
+            icon: () => h(SmileOutlined, {
+              style: 'color: #108ee9',
+
+            })})
+          console.log("登录成功:", data.content)
+        }else {
+          notification.error({
+            description:data.message
+          })
+        }
+      })
+      console.log('Success2222:', values);
+
     };
     const onFinishFailed = errorInfo => {
       console.log('Failed:', errorInfo);
@@ -113,8 +112,8 @@ export default defineComponent({
       loginForm,
       onFinish,
       onFinishFailed,
-      sendCode,
-      login
+/*      sendCode,
+      login*/
     };
   },
 });
