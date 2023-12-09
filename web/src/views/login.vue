@@ -51,10 +51,11 @@
 import { defineComponent, reactive, h } from 'vue';
 import { SmileOutlined } from '@ant-design/icons-vue';
 import { notification } from 'ant-design-vue';
+import {useRouter} from "vue-router";
 import axios from 'axios';
 export default defineComponent({
   setup() {
-
+    const route = useRouter();
     const loginForm = reactive({
       mobile: '18755817542',
       code: ''
@@ -96,6 +97,8 @@ export default defineComponent({
 
             })})
           console.log("登录成功:", data.content)
+          //跳转主页
+          route.push("/")
         }else {
           notification.error({
             description:data.message
