@@ -2,7 +2,7 @@
   <a-layout>
       <the-header></the-header>
     <a-layout>
-
+      <the-sider></the-sider>
       <a-layout style="padding: 0 24px 24px">
         <a-breadcrumb style="margin: 16px 0">
           <a-breadcrumb-item>Home</a-breadcrumb-item>
@@ -19,22 +19,17 @@
   </a-layout>
 </template>
 <script>
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons-vue';
 import { defineComponent, ref } from 'vue';
 import TheHeader from "@/components/the-header.vue";
+import TheSider from "@/components/the-sider.vue";
 export default defineComponent({
   components: {
+    TheSider,
     TheHeader,
-    UserOutlined,
-    LaptopOutlined,
-    NotificationOutlined,
   },
   setup() {
     return {
-      selectedKeys1: ref(['2']),
-      selectedKeys2: ref(['1']),
       collapsed: ref(false),
-      openKeys: ref(['sub1']),
     };
   },
 });
