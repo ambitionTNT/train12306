@@ -3,6 +3,7 @@ package edu.scnu.train12306.member.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.jwt.JWTUtil;
 import edu.scnu.train12306.common.exception.BusinessException;
 import edu.scnu.train12306.common.exception.BusinessExceptionEnum;
 import edu.scnu.train12306.common.utils.SnowUtil;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author long
@@ -102,6 +104,18 @@ public class MemberServiceImpl implements MemberService {
         //首先要到数据库中查询到用户的先关信息
 
         MemberLoginResp memberLoginResp = BeanUtil.copyProperties(member, MemberLoginResp.class);
+
+
+        //jwt的第一部分默认不需要做处理。
+        //将用户的信息以JSON的格式存进去，作为第二部分的有效载荷payload
+
+        Map<String, Object> map = BeanUtil.beanToMap(memberLoginResp);
+
+        //第三部分的秘钥
+        String key = "ambition12306";
+//        创建HS256(HmacSHA256) JWT Token
+        String token = JWTUtil.createToken(map,key.getBytes());
+        memberLoginResp.setToken(token);
         return memberLoginResp;
 
 
