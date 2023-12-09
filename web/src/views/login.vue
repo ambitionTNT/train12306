@@ -53,6 +53,7 @@ import { SmileOutlined } from '@ant-design/icons-vue';
 import { notification } from 'ant-design-vue';
 import {useRouter} from "vue-router";
 import axios from 'axios';
+import store from "@/store";
 export default defineComponent({
   setup() {
     const route = useRouter();
@@ -99,6 +100,8 @@ export default defineComponent({
           console.log("登录成功:", data.content)
           //跳转主页
           route.push("/")
+          //把混悬信息存入全局变量member中
+          store.commit("setMember", data.content);
         }else {
           notification.error({
             description:data.message
