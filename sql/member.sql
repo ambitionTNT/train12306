@@ -9,7 +9,7 @@ create table  `member` (
 drop table if exists `passenger`;
 
 create table `passenger`(
-    `id` bigint not null comment '会员id',
+    `id` bigint not null comment '乘车人id',
     `member_id` bigint not null comment '会员id',
     `name` varchar(20) not null comment '姓名',
     `id_card` varchar(18) not null comment '身份证',
