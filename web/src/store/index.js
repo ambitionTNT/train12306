@@ -12,7 +12,7 @@ export default createStore({
   mutations: {
     setMember (state, member){
       state.member = member
-      SessionStorage.set(MEMBER, member)
+      window.SessionStorage.set(MEMBER, member)
     }
   },
   actions: {

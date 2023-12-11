@@ -23,4 +23,3 @@ spring:
             allowedOriginPatterns: '*'
             # 跨域检测的有效期，会发起一个OPTION请求
             maxAge: 3600
-            ####vuex配合h5 session缓存，解决浏览器刷新丢失数据的问题wwww
