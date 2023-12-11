@@ -1,7 +1,6 @@
 package edu.scnu.train12306.member.req;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
@@ -10,7 +9,6 @@ public class PassengerSaveReq {
 
     private Long id;
 
-    @NotNull(message = "【会员Id】不能为空")
     private Long memberId;
 
     @NotBlank(message = "【名字】不能为空")
