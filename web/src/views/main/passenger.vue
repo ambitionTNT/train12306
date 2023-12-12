@@ -1,6 +1,6 @@
 <template>
   <h1>
-    欢迎使用TNT12306售票系统
+    乘车人管理
   </h1>
 </template>
 <script>
