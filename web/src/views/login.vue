@@ -99,7 +99,7 @@ export default defineComponent({
             })})
           console.log("登录成功:", data.content)
           //跳转主页
-          route.push("/")
+          route.push("/welcome")
           //把混悬信息存入全局变量member中
           store.commit("setMember", data.content);
         }else {
