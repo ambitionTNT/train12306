@@ -66,9 +66,10 @@
             <a-select
                 v-model:value="passenger.type"
             >
-              <a-select-option value="1">成人</a-select-option>
-              <a-select-option value="2">儿童</a-select-option>
-              <a-select-option value="3" >学生</a-select-option>
+              <a-select-option v-for="item in PASSENGER_TYPE_ARRAY" :key="item.key" :value="item.key">
+                {{item.value}}
+              </a-select-option>
+
             </a-select>
           </a-form-item>
         </a-form>
@@ -114,7 +115,13 @@ export default defineComponent({
         dataIndex: 'operation',
         key: 'operation',
       }
-    ])
+    ]);
+    const PASSENGER_TYPE_ARRAY =
+       [ {key: "1", value: "成人1"},
+        {key: "2", value: "儿童2"},
+        {key: "3", value: "学生3"},]
+
+
     const passenger = ref({
       id: undefined,
       memberId: undefined,
@@ -240,6 +247,7 @@ export default defineComponent({
       columns,
       passenger,
       pagination,
+      PASSENGER_TYPE_ARRAY,
       onEdit,
       onAdd,
       handleOk,
