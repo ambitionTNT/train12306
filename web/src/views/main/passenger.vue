@@ -1,7 +1,12 @@
 <template>
 
     <div>
-      <a-button type="primary" @click="showModal">新增乘车人</a-button>
+      <p>
+        <a-button type="primary" @click="showModal">新增乘车人</a-button>
+
+      </p>
+      <a-table :dataSource="dataSource" :columns="columns" />
+
       <a-modal v-model:visible="visible" title="乘车人" @ok="handleOk" okText ="确认" cancelText="取消">
         <a-form
             :model="passenger"
@@ -49,6 +54,40 @@ import {notification} from "ant-design-vue";
 export default defineComponent({
   setup(){
     const visible = ref(false);
+    //表格数据
+    const  dataSource = ref([
+      {
+        key: '1',
+        name: '胡彦斌',
+        age: 32,
+        address: '西湖区湖底公园1号',
+      },
+      {
+        key: '2',
+        name: '胡彦祖',
+        age: 42,
+        address: '西湖区湖底公园1号',
+      },
+    ]);
+
+    //表格的各列
+    const columns = ref([
+      {
+        title: '姓名',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: '年龄',
+        dataIndex: 'age',
+        key: 'age',
+      },
+      {
+        title: '住址',
+        dataIndex: 'address',
+        key: 'address',
+      },
+    ])
     const passenger = reactive({
       id: undefined,
       memberId: undefined,
@@ -83,6 +122,8 @@ export default defineComponent({
     };
     return{
       visible,
+      dataSource,
+      columns,
       passenger,
       showModal,
       handleOk,
