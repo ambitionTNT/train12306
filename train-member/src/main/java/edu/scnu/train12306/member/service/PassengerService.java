@@ -1,10 +1,9 @@
 package edu.scnu.train12306.member.service;
 
+import edu.scnu.train12306.common.resp.PageResp;
 import edu.scnu.train12306.member.req.PassengerQueryReq;
 import edu.scnu.train12306.member.req.PassengerSaveReq;
 import edu.scnu.train12306.member.resp.PassengerQueryResp;
-
-import java.util.List;
 
 /**
  * @author long
@@ -16,5 +15,5 @@ import java.util.List;
 public interface PassengerService {
      void save(PassengerSaveReq req);
 
-     List<PassengerQueryResp> queryList(PassengerQueryReq req);
+     PageResp<PassengerQueryResp> queryList(PassengerQueryReq req);
 }

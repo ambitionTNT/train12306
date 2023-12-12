@@ -1,6 +1,8 @@
 package edu.scnu.train12306.member.req;
 
-public class PassengerQueryReq {
+import edu.scnu.train12306.common.req.PageReq;
+
+public class PassengerQueryReq  extends PageReq {
 
 
 

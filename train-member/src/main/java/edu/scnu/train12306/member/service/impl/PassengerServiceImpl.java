@@ -4,7 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import edu.scnu.train12306.common.context.LoginMemberContext;
+import edu.scnu.train12306.common.resp.PageResp;
 import edu.scnu.train12306.common.utils.SnowUtil;
 import edu.scnu.train12306.member.domain.Passenger;
 import edu.scnu.train12306.member.domain.PassengerExample;
@@ -14,6 +16,8 @@ import edu.scnu.train12306.member.req.PassengerSaveReq;
 import edu.scnu.train12306.member.resp.PassengerQueryResp;
 import edu.scnu.train12306.member.service.PassengerService;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +31,7 @@ import java.util.List;
  */
 @Service
 public class PassengerServiceImpl implements PassengerService {
+    private final static Logger LOG = LoggerFactory.getLogger(PassengerServiceImpl.class);
 
     @Resource
     private PassengerMapper passengerMapper;
@@ -51,7 +56,7 @@ public class PassengerServiceImpl implements PassengerService {
      * @return
      */
     @Override
-    public List<PassengerQueryResp> queryList(PassengerQueryReq req) {
+    public PageResp<PassengerQueryResp> queryList(PassengerQueryReq req) {
 
         PassengerExample passengerExample = new PassengerExample();
         PassengerExample.Criteria criteria = passengerExample.createCriteria();
@@ -59,9 +64,22 @@ public class PassengerServiceImpl implements PassengerService {
         if (ObjectUtil.isNotNull(req.getMemberId())){
             criteria.andMemberIdEqualTo(req.getMemberId());
         }
-        PageHelper.startPage(1,2);
+
+        LOG.info("当前页：{}",req.getPage());
+        LOG.info("每页条数：{}",req.getSize());
+
+        PageHelper.startPage(req.getPage(),req.getSize());
         List<Passenger> passengerList = passengerMapper.selectByExample(passengerExample);
+
+        //封装分月查询的的信息
+        PageInfo<Passenger> pageInfo = new PageInfo<>(passengerList);
+        LOG.info("总行数：{}",pageInfo.getTotal());
+        LOG.info("总行数：{}",pageInfo.getPages());
+
         List<PassengerQueryResp> passengerQueryResps = BeanUtil.copyToList(passengerList, PassengerQueryResp.class);
-        return passengerQueryResps;
+        PageResp<PassengerQueryResp> resp = new PageResp<>();
+        resp.setList(passengerQueryResps);
+        resp.setTotal(pageInfo.getTotal());
+        return resp;
     }
 }
