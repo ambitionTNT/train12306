@@ -59,6 +59,8 @@ public class PassengerServiceImpl implements PassengerService {
     public PageResp<PassengerQueryResp> queryList(PassengerQueryReq req) {
 
         PassengerExample passengerExample = new PassengerExample();
+        //倒序
+        passengerExample.setOrderByClause("id desc");
         PassengerExample.Criteria criteria = passengerExample.createCriteria();
         //封装查询条件
         if (ObjectUtil.isNotNull(req.getMemberId())){
