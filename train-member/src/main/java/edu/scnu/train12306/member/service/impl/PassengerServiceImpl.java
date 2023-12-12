@@ -3,6 +3,7 @@ package edu.scnu.train12306.member.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
+import com.github.pagehelper.PageHelper;
 import edu.scnu.train12306.common.context.LoginMemberContext;
 import edu.scnu.train12306.common.utils.SnowUtil;
 import edu.scnu.train12306.member.domain.Passenger;
@@ -44,13 +45,21 @@ public class PassengerServiceImpl implements PassengerService {
         passengerMapper.insert(passenger);
     }
 
+    /**
+     * 列表查询乘车人信息
+     * @param req
+     * @return
+     */
     @Override
     public List<PassengerQueryResp> queryList(PassengerQueryReq req) {
+
         PassengerExample passengerExample = new PassengerExample();
         PassengerExample.Criteria criteria = passengerExample.createCriteria();
+        //封装查询条件
         if (ObjectUtil.isNotNull(req.getMemberId())){
             criteria.andMemberIdEqualTo(req.getMemberId());
         }
+        PageHelper.startPage(1,2);
         List<Passenger> passengerList = passengerMapper.selectByExample(passengerExample);
         List<PassengerQueryResp> passengerQueryResps = BeanUtil.copyToList(passengerList, PassengerQueryResp.class);
         return passengerQueryResps;
