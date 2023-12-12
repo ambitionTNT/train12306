@@ -17,9 +17,23 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'operation'">
-            <a-button type="primary" @click="onEdit(record)" >
-              编辑
-            </a-button>
+            <a-space>
+
+              <a-button type="primary" @click="onEdit(record)" >
+                编辑
+              </a-button>
+              <a-popconfirm
+                  title="删除后不可回复，您确认要删除?"
+                  ok-text="Yes"
+                  cancel-text="No"
+                  @confirm="onDelete(record.id)"
+              >
+                <a-button type="danger" >
+                  删除
+                </a-button>
+              </a-popconfirm>
+            </a-space>
+
           </template>
         </template>
       </a-table>
@@ -191,7 +205,27 @@ export default defineComponent({
           }
       })
     }
+    /**
+     * 删除乘车人
+     * @param id
+     */
+    const onDelete = ( id)=>{
+      loading.value = true;
+      axios.delete("/member/passenger/delete/" + id
+      ).then((response) => {
+        const data = response.data;
+        if (data.success) {
+          handleQuery({
+            page:pagination.value.current,
+            size: pagination.value.pageSize
 
+          });
+          notification.success({description:data.message})
+        }else {
+          notification.error({description: data.message})
+        }
+      });
+    }
     onMounted(()=>{
       handleQuery({
         page: pagination.value.current,
@@ -210,7 +244,8 @@ export default defineComponent({
       onAdd,
       handleOk,
       handleTableChange,
-      handleQuery
+      handleQuery,
+      onDelete
     };
   }
 })

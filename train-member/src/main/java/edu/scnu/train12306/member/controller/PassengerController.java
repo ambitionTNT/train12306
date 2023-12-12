@@ -41,6 +41,7 @@ public class PassengerController {
         CommonResp commonResp = new CommonResp();
         int success = passengerService.delete(id);
         if (success>0){
+            System.out.println("删除成功");
             commonResp.setMessage("删除成功");
         }else {
             commonResp.setSuccess(false);
