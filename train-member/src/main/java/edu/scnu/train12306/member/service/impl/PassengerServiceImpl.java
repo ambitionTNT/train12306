@@ -2,14 +2,20 @@ package edu.scnu.train12306.member.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.util.ObjectUtil;
 import edu.scnu.train12306.common.context.LoginMemberContext;
 import edu.scnu.train12306.common.utils.SnowUtil;
 import edu.scnu.train12306.member.domain.Passenger;
+import edu.scnu.train12306.member.domain.PassengerExample;
 import edu.scnu.train12306.member.mapper.PassengerMapper;
+import edu.scnu.train12306.member.req.PassengerQueryReq;
 import edu.scnu.train12306.member.req.PassengerSaveReq;
+import edu.scnu.train12306.member.resp.PassengerQueryResp;
 import edu.scnu.train12306.member.service.PassengerService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author long
@@ -36,5 +42,17 @@ public class PassengerServiceImpl implements PassengerService {
         passenger.setCreateTime(now);
         passenger.setUpdateTime(now);
         passengerMapper.insert(passenger);
+    }
+
+    @Override
+    public List<PassengerQueryResp> queryList(PassengerQueryReq req) {
+        PassengerExample passengerExample = new PassengerExample();
+        PassengerExample.Criteria criteria = passengerExample.createCriteria();
+        if (ObjectUtil.isNotNull(req.getMemberId())){
+            criteria.andMemberIdEqualTo(req.getMemberId());
+        }
+        List<Passenger> passengerList = passengerMapper.selectByExample(passengerExample);
+        List<PassengerQueryResp> passengerQueryResps = BeanUtil.copyToList(passengerList, PassengerQueryResp.class);
+        return passengerQueryResps;
     }
 }

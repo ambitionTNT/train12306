@@ -1,14 +1,16 @@
 package edu.scnu.train12306.member.controller;
 
+import edu.scnu.train12306.common.context.LoginMemberContext;
 import edu.scnu.train12306.common.resp.CommonResp;
+import edu.scnu.train12306.member.req.PassengerQueryReq;
 import edu.scnu.train12306.member.req.PassengerSaveReq;
+import edu.scnu.train12306.member.resp.PassengerQueryResp;
 import edu.scnu.train12306.member.service.PassengerService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author long
@@ -28,5 +30,11 @@ public class PassengerController {
     public CommonResp savePassenger(@Valid @RequestBody PassengerSaveReq req){
         passengerService.save(req);
         return new CommonResp();
+    }
+    @GetMapping("/list-query")
+    public CommonResp<List<PassengerQueryResp>> listQuery(@Valid @RequestBody PassengerQueryReq req){
+        req.setMemberId(LoginMemberContext.getId());
+        List<PassengerQueryResp> passengerQueryResps = passengerService.queryList(req);
+        return new CommonResp<>(passengerQueryResps);
     }
 }
