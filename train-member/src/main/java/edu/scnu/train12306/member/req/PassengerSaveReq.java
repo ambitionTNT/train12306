@@ -1,5 +1,6 @@
 package edu.scnu.train12306.member.req;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.Date;
@@ -76,11 +77,13 @@ public class PassengerSaveReq {
         this.type = type;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX",timezone = "GMT+8")
 
     public Date getCreateTime() {
         return createTime;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX",timezone = "GMT+8")
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;

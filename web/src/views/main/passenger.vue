@@ -127,7 +127,10 @@ export default defineComponent({
       visible.value = true;
     };
     const onEdit = (record) => {
+      console.log("编辑的乘车人信息:"+record)
       passenger.value = window.Tool.copy(record);
+      console.log("编辑的passenger信息:"+passenger.value)
+
       visible.value = true;
     };
     /**
@@ -137,7 +140,7 @@ export default defineComponent({
       console.log(passenger)
       // passenger
 
-      axios.post("/member/passenger/save", passenger).then((response)=>{
+      axios.post("/member/passenger/save", passenger.value).then((response)=>{
         console.log(response);
         const data  = response.data;
         if (data.success){
