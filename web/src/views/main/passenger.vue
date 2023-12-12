@@ -3,7 +3,7 @@
     <div>
       <p>
         <a-space>
-          <a-button type="primary" @click="showModal">新增乘车人</a-button>
+          <a-button type="primary" @click="onAdd">新增乘车人</a-button>
           <a-button type="primary" @click="handleQuery()">刷新</a-button>
         </a-space>
 
@@ -14,7 +14,15 @@
                :pagination="pagination"
                @change="handleTableChange"
                :loading="loading"
-      />
+      >
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.dataIndex === 'operation'">
+            <a-button type="primary" @click="onEdit(record)" >
+              编辑
+            </a-button>
+          </template>
+        </template>
+      </a-table>
 
       <a-modal v-model:visible="visible" title="乘车人" @ok="handleOk" okText ="确认" cancelText="取消">
         <a-form
@@ -55,7 +63,7 @@
 
 </template>
 <script>
-import {defineComponent,  reactive, ref, onMounted} from "vue";
+import {defineComponent, ref, onMounted} from "vue";
 import axios from "axios";
 import {notification} from "ant-design-vue";
 
@@ -66,11 +74,10 @@ export default defineComponent({
     const loading = ref(false);
     //表格数据
     const  passengerList = ref([]);
-    const pagination = reactive({
+    const pagination = ref({
       total: 0,
       current:1,
       pageSize: 2,
-
     })
     //表格的各列
     const columns = ref([
@@ -88,9 +95,13 @@ export default defineComponent({
         title: '类型',
         dataIndex: 'type',
         key: 'type',
-      },
+      }, {
+        title: '操作',
+        dataIndex: 'operation',
+        key: 'operation',
+      }
     ])
-    const passenger = reactive({
+    const passenger = ref({
       id: undefined,
       memberId: undefined,
       name: undefined,
@@ -110,7 +121,13 @@ export default defineComponent({
         size: pagination.pageSize
       });
     };
-    const showModal = () => {
+    const onAdd = () => {
+      //在点击新增的时候清空表单
+      passenger.value = {};
+      visible.value = true;
+    };
+    const onEdit = (record) => {
+      passenger.value = window.Tool.copy(record);
       visible.value = true;
     };
     /**
@@ -118,6 +135,8 @@ export default defineComponent({
      */
     const handleOk = () => {
       console.log(passenger)
+      // passenger
+
       axios.post("/member/passenger/save", passenger).then((response)=>{
         console.log(response);
         const data  = response.data;
@@ -127,8 +146,8 @@ export default defineComponent({
           )
           visible.value = false;
           handleQuery({
-            page: pagination.current,
-            size: pagination.pageSize
+            page: pagination.value.current,
+            size: pagination.value.pageSize
           })
         }else {
           notification.error({
@@ -144,7 +163,7 @@ export default defineComponent({
       if (!params){
         params = {
           page: 1,
-          size:pagination.pageSize
+          size:pagination.value.pageSize
         }
       }
       loading.value = true;
@@ -161,8 +180,8 @@ export default defineComponent({
         if (data.success){
             passengerList.value = data.content.list;
             //设置分页控件的值
-            pagination.current = params.page
-            pagination.total = data.content.total;
+            pagination.value.current = params.page
+            pagination.value.total = data.content.total;
 
           }else {
             notification.error({description:data.message});
@@ -172,8 +191,8 @@ export default defineComponent({
 
     onMounted(()=>{
       handleQuery({
-        page: pagination.current,
-        size: pagination.pageSize
+        page: pagination.value.current,
+        size: pagination.value.pageSize
       })
     });
 
@@ -184,7 +203,8 @@ export default defineComponent({
       columns,
       passenger,
       pagination,
-      showModal,
+      onEdit,
+      onAdd,
       handleOk,
       handleTableChange,
       handleQuery
